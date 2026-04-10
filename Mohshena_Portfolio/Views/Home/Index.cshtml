@@ -19,13 +19,13 @@
             @if (User.IsInRole("Admin"))
             {
                 <a href="/Project/Create" class="btn">+ Add Project</a>
-                <a href="/Skill/Create" class="btn">+ Update Skill</a>
+                <a href="/Skill/Create" class="btn">+ Add Skill</a>
             }
         </div>
 
         <!-- RIGHT SIDE IMAGE -->
         <div class="hero-image">
-            <img src="~/images/profile/meem.jpeg" alt="Mohshena" />
+            <img src="~/images/profile/me.jpeg" alt="Mohshena" />
         </div>
 
     </div>
@@ -53,17 +53,19 @@
     <div class="container">
         <h2 class="mb-4" style="padding:15px">Skills</h2>
 
-        <table class="skills-table">
-            <tbody>
-                @foreach (var skill in Model.Skills)
-                {
-                    <tr>
-                        <td>@skill.Name</td>
-                        <td>@skill.Description</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table class="skills-table">
+                <tbody>
+                    @foreach (var skill in Model.Skills)
+                    {
+                        <tr>
+                            <td>@skill.Name</td>
+                            <td>@skill.Description</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </section>
 
@@ -81,7 +83,7 @@
                     <img src="@project.ImageUrl" class="project-img" alt="@project.Title" />
                     <div class="project-links">
                         <a href="@project.LiveLink" target="_blank">Live</a>
-                        <a href="@project.GitHubLink" target="_blank" style="float:right"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="@project.GitHubLink" target="_blank"><i class="fab fa-github"></i> GitHub</a>
                     </div>
                 </div>
             }

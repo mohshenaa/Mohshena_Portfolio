@@ -6,8 +6,29 @@ toggle.addEventListener("click", () => {
 
 // Mobile menu toggle
 function toggleMenu() {
-    document.getElementById("navLinks").classList.toggle("active");
+    const navLinks = document.getElementById("navLinks");
+    navLinks.classList.toggle("active");
 }
+
+// Close menu when clicking outside of it
+document.addEventListener("click", function (event) {
+    const navLinks = document.getElementById("navLinks");
+    const menuToggle = document.querySelector(".menu-toggle");
+
+    // If menu is open and click is outside both the navLinks and the toggle button
+    if (navLinks.classList.contains("active") &&
+        !navLinks.contains(event.target) &&
+        !menuToggle.contains(event.target)) {
+        navLinks.classList.remove("active");
+    }
+});
+
+// Close menu when a nav link is clicked (optional but good UX)
+document.querySelectorAll(".nav-links a").forEach(link => {
+    link.addEventListener("click", () => {
+        document.getElementById("navLinks").classList.remove("active");
+    });
+});
 
 // Typewriter effect
 const role = ".Net Developer";
@@ -36,6 +57,6 @@ const observer = new IntersectionObserver(entries => {
             observer.unobserve(entry.target);
         }
     });
-}, { threshold: 0.3 });
+}, { threshold: 0.2 });
 
 sections.forEach(section => observer.observe(section));
