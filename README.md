@@ -26,7 +26,7 @@ SQL Server
 # 📸 Screenshots
 Hero Section
 <img width="1903" height="912" alt="image" src="https://github.com/user-attachments/assets/484544ec-e0a2-4762-8ac2-68e2be06b791" />
-About Section
+in light mood
 <img width="701" height="915" alt="image" src="https://github.com/user-attachments/assets/1ba7995f-3fef-42b3-a1bd-f925b0e289bc" />
 
 Projects Section
