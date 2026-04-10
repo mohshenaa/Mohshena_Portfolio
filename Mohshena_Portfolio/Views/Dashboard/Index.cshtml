@@ -1,0 +1,111 @@
+﻿@using Mohshena_Portfolio.ViewModels
+@model DashboardVM
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="dashboard-container">
+
+    <h1>Admin Dashboard</h1>
+    <a href="/Home/Index" style="float: right; margin:5px" class="btn">Portfolio</a>
+    <div class="dashboard-cards">
+        <div class="card">
+            <h2>@Model.Projects.Count</h2>
+            <p>Projects</p>
+        </div>
+        <div class="card">
+            <h2>@Model.Skills.Count</h2>
+            <p>Skills</p>
+        </div>
+        <div class="card">
+            <h2>@Model.ContactMessages.Count</h2>
+            <p>Messages</p>
+        </div>
+    </div>
+ 
+    <!-- PROJECTS TABLE -->
+    <h2>Projects</h2>
+    <a href="/Project/Create" class="btn" style="margin:5px">+ Add Project</a>
+   
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Image</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in Model.Projects)
+            {
+                <tr>
+                    <td>@p.Title</td>
+                    <td>@p.Description</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(p.ImageUrl))
+                        {
+                            <img src="@p.ImageUrl" alt="@p.Title" width="100" />
+                        }
+                    </td>
+                    <td>
+                        <a href="/Project/Edit/@p.Id" class="edit-btn">Edit</a>
+                        <a href="/Project/Delete/@p.Id" class="delete-btn">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- SKILLS TABLE -->
+    <h2>Skills</h2>
+    <a href="/Skill/Create" class="btn" style="margin:5px">+ Add Skill</a>
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Percentage</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var s in Model.Skills)
+            {
+                <tr>
+                    <td>@s.Name</td>
+                    <td>@s.Description</td>
+                    <td>
+                        <a href="/Skill/Edit/@s.Id" class="edit-btn">Edit</a>
+                        <a href="/Skill/Delete/@s.Id" class="delete-btn">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- CONTACT MESSAGES TABLE -->
+    <h2>Contact Messages</h2>
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Message</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var c in Model.ContactMessages)
+            {
+                <tr>
+                    <td>@c.Name</td>
+                    <td>@c.Email</td>
+                    <td>@c.Message</td>
+                    <td>@c.CreatedAt.ToString("g")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

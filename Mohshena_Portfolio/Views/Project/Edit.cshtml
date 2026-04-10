@@ -1,0 +1,46 @@
+﻿@model Project
+<div class="container" style="justify-items:center;padding-top:150px">
+<h2>Edit Project</h2>
+    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @Html.AntiForgeryToken()
+
+    <input type="hidden" asp-for="Id" />
+
+    <div>
+        <label>Title</label>
+        <input asp-for="Title" />
+    </div>
+
+    <div>
+        <label>Description</label>
+        <textarea asp-for="Description"></textarea>
+    </div>
+
+        <div>
+            <label>Current Image</label><br />
+            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+            {
+                <img src="@Model.ImageUrl" width="150" />
+            }
+        </div>
+
+        <div>
+            <label>Change Image</label>
+            <input asp-for="ImageFile" type="file" />
+        </div>
+
+    <div>
+        <label>GitHub Link</label>
+        <input asp-for="GitHubLink" />
+    </div>
+
+    <div>
+        <label>Live Link</label>
+        <input asp-for="LiveLink" />
+    </div>
+
+    <button type="submit">Update</button>
+
+</form>
+</div>

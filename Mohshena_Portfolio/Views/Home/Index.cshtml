@@ -1,0 +1,140 @@
+﻿@using Mohshena_Portfolio.ViewModels
+@model HomeVM
+
+<!-- HERO -->
+<section id="home" class="hero">
+    <div class="container hero-content">
+
+        <!-- LEFT SIDE TEXT -->
+        <div class="hero-text">
+            <h1>Hi, I'm Mohshena </h1>
+            <h2 class="advanced-typewriter">
+                <span class="dynamic-text"></span>
+            </h2>
+            <p>I build modern web applications using ASP.NET Core</p>
+
+            <a href="#projects" class="btn">View Work</a>
+            <a href="~/files/mohshena_akter_resume.pdf" target="_blank" class="btn btn-cv"> <i class="fas fa-download"></i>View CV</a>
+           
+            @if (User.IsInRole("Admin"))
+            {
+                <a href="/Project/Create" class="btn">+ Add Project</a>
+                <a href="/Skill/Create" class="btn">+ Update Skill</a>
+            }
+        </div>
+
+        <!-- RIGHT SIDE IMAGE -->
+        <div class="hero-image">
+            <img src="~/images/profile/meem.jpeg" alt="Mohshena" />
+        </div>
+
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="about-section">
+    <div class="container">
+        <h2 style="padding:15px 0">About Me</h2>
+        <p>
+           @*  Hi, I’m Mohshena Akter Meem. I'm a passionate developer with a growing skill set in ASP.NET, Angular, and React, focused on building cross-platform applications that are both useful and user-friendly. I enjoy learning new technologies and solving problems through code.
+            <br /><br />
+            I’m currently focused on learning new technologies and strengthening my technical skills. I’m deepening my knowledge in SQL, C#, ASP.NET, and modern development tools, and building small projects to apply what I learn. I’m also actively looking for opportunities where I can utilize my skills, contribute to real-world projects, and continue growing as a developer. *@
+            I’m Mohshena Akter Meem, a passionate and dedicated developer with a strong focus on building modern, scalable web applications. I specialize in ASP.NET Core, C#, SQL Server, and frontend technologies like HTML, CSS growing experience in Angular.
+            <br /><br />
+            I enjoy turning ideas into real-world solutions through clean code and thoughtful design. I have worked on projects involving REST APIs, database design, and responsive user interfaces, always aiming to create applications that are both functional and user-friendly.
+            <br /><br />
+            Currently, I am focused on strengthening my expertise in full stack development by building practical projects and learning modern frameworks and best practices. I am eager to join a professional environment where I can contribute, learn from experienced developers, and continue growing my technical and problem-solving skills.
+        </p>
+    </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="skills-section py-5">
+    <div class="container">
+        <h2 class="mb-4" style="padding:15px">Skills</h2>
+
+        <table class="skills-table">
+            <tbody>
+                @foreach (var skill in Model.Skills)
+                {
+                    <tr>
+                        <td>@skill.Name</td>
+                        <td>@skill.Description</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="projects-section">
+    <div class="container">
+        <h2 style="padding:15px">Projects</h2>
+
+        <div class="grid">
+            @foreach (var project in Model.Projects)
+            {
+                <div class="card">
+                    <p>@project.Title</p><hr />
+                    <p>@project.Description</p>
+                    <img src="@project.ImageUrl" class="project-img" alt="@project.Title" />
+                    <div class="project-links">
+                        <a href="@project.LiveLink" target="_blank">Live</a>
+                        <a href="@project.GitHubLink" target="_blank" style="float:right"><i class="fab fa-github"></i> GitHub</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact-section">
+    <div class="container">
+        <h2 style="padding:15px 0">Contact Me</h2>
+
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3>Let's Connect 👋</h3>
+                <p>If you have any project or idea, feel free to contact me.</p>
+                <p style="font-size:30px;display:flex;gap:20px">
+                    <a href="https://www.linkedin.com/in/mohshena-akter" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://www.facebook.com/mohshena.meem"><i class="fab fa-facebook"></i></a>
+                    <a href="mailto:mohshenaa@gmail.com"> <i class="fas fa-envelope"></i></a>
+                    <a href="https://wa.me/+8801613331808"><i class="fab fa-whatsapp"></i></a>
+                </p>
+            </div>
+
+            <div class="contact-form">
+                <form asp-action="Index" method="post">
+                    @Html.AntiForgeryToken()
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div>
+                        <input asp-for="Contact.Name" placeholder="Your Name" />
+                        <span asp-validation-for="Contact.Name" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <input asp-for="Contact.Email" placeholder="Your Email" />
+                        <span asp-validation-for="Contact.Email" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <input asp-for="Contact.Phone" placeholder="Your Phone" />
+                        <span asp-validation-for="Contact.Phone" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <textarea asp-for="Contact.Message" placeholder="Your Message"></textarea>
+                        <span asp-validation-for="Contact.Message" class="text-danger"></span>
+                    </div>
+
+                    <div><button type="submit">Send Message</button></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

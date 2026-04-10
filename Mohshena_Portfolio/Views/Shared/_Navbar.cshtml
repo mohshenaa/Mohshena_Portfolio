@@ -1,0 +1,38 @@
+﻿<nav class="navbar">
+    <div class="container nav-wrapper">
+
+        <!-- LEFT: Profile + Logo -->
+        <div class="nav-left">
+            <div class="profile-img">
+                <img src="~/images/profile/meem.jpeg" alt="Photo">
+                </div>
+                <h2 class="logo">Mohshena</h2>
+            </div>
+
+            <!-- CENTER: Links -->
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li><a href="/Account/Logout">Logout</a></li>
+                    <li><a href="/Dashboard/Index">Admin Dashboard</a></li>
+                }
+                else
+                {
+                    <li><a href="/Account/Login">Admin</a></li>
+                }
+            </ul>
+
+            <!-- RIGHT: Toggle + Hamburger -->
+            <div class="nav-right">
+                <button id="theme-toggle">🌙</button>
+                <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+            </div>
+
+        </div>
+    </nav>

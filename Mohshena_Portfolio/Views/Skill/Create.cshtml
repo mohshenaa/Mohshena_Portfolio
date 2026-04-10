@@ -1,0 +1,24 @@
+﻿@model Skill
+<div class="container" style="justify-items:center;padding-top:150px">
+    <h2>Add Skill</h2>
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @Html.AntiForgeryToken()
+        <div>
+            <label>Name</label>
+            <input asp-for="Name" />
+        </div>
+
+        <div>
+            <label>Description</label>
+            <textarea asp-for="Description"></textarea>
+        </div>
+
+   
+        <button type="submit">Save</button>
+
+    </form>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

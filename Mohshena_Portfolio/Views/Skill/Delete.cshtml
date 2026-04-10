@@ -1,0 +1,15 @@
+﻿@model Skill
+<div class="container" style="justify-items:center;padding-top:200px">
+    <h2>Delete Skill</h2>
+
+    <p>Are you sure you want to delete this Skill?</p>
+
+    <h3>@Model.Name</h3>
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit">Yes, Delete</button>
+    </form>
+
+    <a href="/Dashboard">Cancel</a>
+</div>

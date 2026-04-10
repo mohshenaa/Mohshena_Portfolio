@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="login-container">
+    <div class="login-card">
+
+        <h2>Admin Login</h2>
+
+        @if (ViewBag.Error != null)
+        {
+            <p class="error">@ViewBag.Error</p>
+        }
+
+        <form method="post">
+            
+            <div class="login-input-group">
+                <label>Email</label>
+                <input type="email" name="email" required />
+               
+            </div>
+
+            <div class="login-input-group">
+                <label>Password</label>
+                <input type="password" name="password" required />
+              
+            </div>
+
+            <button type="submit" class="login-btn">Login</button>
+            <a href="/Home/Index">Back</a>
+
+        </form>
+
+    </div>
+</div>

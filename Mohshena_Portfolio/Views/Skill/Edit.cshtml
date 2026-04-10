@@ -1,0 +1,22 @@
+﻿@model Skill
+<div class="container" style="justify-items:center;padding-top:150px">
+    <h2>Edit Skill</h2>
+
+    <form asp-action="Edit" method="post">
+
+        <input type="hidden" asp-for="Id" />
+
+        <div>
+            <label>Name</label>
+            <input asp-for="Name" />
+        </div>
+
+        <div>
+            <label>Description</label>
+            <textarea asp-for="Description"></textarea>
+        </div>
+
+        <button type="submit">Update</button>
+
+    </form>
+</div>
