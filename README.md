@@ -37,7 +37,8 @@ contact
 Admin Dashboard
 <img width="1890" height="897" alt="image" src="https://github.com/user-attachments/assets/491c420c-35c5-44d6-a094-25e85fa47863" />
 dynamic project and skill 
-<img width="1898" height="912" alt="image" src="https://github.com/user-attachments/assets/231b1186-aff5-4158-9e56-5002db865ae8" />
+<img width="1902" height="908" alt="image" src="https://github.com/user-attachments/assets/cc282da6-e6d0-43f8-80b6-5a1c993a1d68" />
+
 
 # 🛠️ Installation & Setup
 Clone the repository:
