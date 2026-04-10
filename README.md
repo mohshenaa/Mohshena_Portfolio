@@ -35,7 +35,8 @@ contact
 <img width="1900" height="910" alt="image" src="https://github.com/user-attachments/assets/4c22976b-fc80-4fc5-94d9-32b21285719d" />
 
 Admin Dashboard
-<img width="1890" height="897" alt="image" src="https://github.com/user-attachments/assets/491c420c-35c5-44d6-a094-25e85fa47863" />
+<img width="1886" height="902" alt="image" src="https://github.com/user-attachments/assets/2e92f724-9f91-4e0d-b0dc-7d6511aba96d" />
+
 dynamic project and skill 
 <img width="1902" height="908" alt="image" src="https://github.com/user-attachments/assets/cc282da6-e6d0-43f8-80b6-5a1c993a1d68" />
 
