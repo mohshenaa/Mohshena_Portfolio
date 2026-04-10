@@ -22,6 +22,8 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 builder.Services.AddFileUploader();
 
+//builder.WebHost.UseUrls("http://0.0.0.0:" + (Environment.GetEnvironmentVariable("PORT") ?? "5000"));
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -45,13 +47,12 @@ app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseAuthorization();
-app.UseStaticFiles();
+//app.UseStaticFiles();
 app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
-
+.WithStaticAssets();
 
 app.Run();
