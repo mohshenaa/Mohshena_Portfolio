@@ -31,6 +31,12 @@ builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<PortfolioDBContext>();
+    await dbContext.Database.MigrateAsync();
+}
+
 // Seed database (async safe)
 using (var scope = app.Services.CreateScope())
 {
