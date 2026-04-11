@@ -9,7 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 
-builder.Services.AddDbContext<PortfolioDBContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));   //register dbcontext
+builder.Services.AddDbContext<PortfolioDBContext>(opt =>
+ opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));  //for postgre sql
+
+/*opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));*/   //register dbcontext
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<PortfolioDBContext>()
@@ -22,7 +25,12 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 builder.Services.AddFileUploader();
 
-//builder.WebHost.UseUrls("http://0.0.0.0:" + (Environment.GetEnvironmentVariable("PORT") ?? "5000"));
+//RENDER-SPECIFIC CONFIGURATION 
+// 1. Read the PORT environment variable (Render sets this)
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+// 2. Bind to 0.0.0.0 (all interfaces) on that port
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+
 
 var app = builder.Build();
 
@@ -43,11 +51,15 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+if (app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
+
 app.UseRouting();
 
 app.UseAuthorization();
-//app.UseStaticFiles();
+
 app.MapStaticAssets();
 
 app.MapControllerRoute(
