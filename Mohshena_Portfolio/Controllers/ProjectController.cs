@@ -7,14 +7,22 @@ using Mohshena_Portfolio.Services;
 
 namespace Mohshena_Portfolio.Controllers
 {
-
-   // [Authorize(Roles = "Admin")]
-    public class ProjectController(PortfolioDBContext db, IUploadService uploadService, PhotoService photoService) : Controller
+    // [Authorize(Roles = "Admin")] // Uncomment when ready
+    public class ProjectController : Controller
     {
+        private readonly PortfolioDBContext _db;
+        private readonly PhotoService _photoService;
+
+        // Inject only PhotoService, remove IUploadService
+        public ProjectController(PortfolioDBContext db, PhotoService photoService)
+        {
+            _db = db;
+            _photoService = photoService;
+        }
 
         public async Task<IActionResult> Index()
         {
-            return View(await db.Projects.ToListAsync());
+            return View(await _db.Projects.ToListAsync());
         }
 
         // CREATE (GET)
@@ -26,17 +34,18 @@ namespace Mohshena_Portfolio.Controllers
         // CREATE (POST)
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Project model, IFormFile ImageFile)
+        public async Task<IActionResult> Create(Project model, IFormFile? ImageFile)
         {
             if (!ModelState.IsValid) return View(model);
 
-            if (model.ImageFile != null && model.ImageFile.Length > 0)
+            if (ImageFile != null && ImageFile.Length > 0)
             {
-                model.ImageUrl = await uploadService.FileSave(model.ImageFile);
+                // Upload to Cloudinary and get the URL
+                model.ImageUrl = await _photoService.AddPhotoAsync(ImageFile);
             }
 
-            db.Projects.Add(model);
-            await db.SaveChangesAsync();
+            _db.Projects.Add(model);
+            await _db.SaveChangesAsync();
 
             return RedirectToAction("Index", "Dashboard");
         }
@@ -44,70 +53,73 @@ namespace Mohshena_Portfolio.Controllers
         // EDIT (GET)
         public async Task<IActionResult> Edit(int id)
         {
-            var data = await db.Projects.FindAsync(id);
+            var data = await _db.Projects.FindAsync(id);
             if (data == null) return NotFound();
-
             return View(data);
         }
 
         // EDIT (POST)
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Project model)
+        public async Task<IActionResult> Edit(int id, Project model, IFormFile? ImageFile)
         {
+            if (id != model.Id) return BadRequest();
+
             if (!ModelState.IsValid) return View(model);
 
-            var existingProject = await db.Projects.FindAsync(model.Id);
+            var existingProject = await _db.Projects.FindAsync(id);
             if (existingProject == null) return NotFound();
 
-            // Update basic fields
+            // Update text fields
             existingProject.Title = model.Title;
             existingProject.Description = model.Description;
             existingProject.GitHubLink = model.GitHubLink;
             existingProject.LiveLink = model.LiveLink;
 
-            // Handle image upload
-            if (model.ImageFile != null && model.ImageFile.Length > 0)
+            // Handle new image upload
+            if (ImageFile != null && ImageFile.Length > 0)
             {
-                existingProject.ImageUrl = await uploadService.FileSave(model.ImageFile);
+                // (Optional) Delete old image from Cloudinary here if needed
+                existingProject.ImageUrl = await _photoService.AddPhotoAsync(ImageFile);
             }
-            // else → DO NOTHING → keep old image ✅
+            // else keep existing ImageUrl
 
-            await db.SaveChangesAsync();
-
+            await _db.SaveChangesAsync();
             return RedirectToAction("Index", "Dashboard");
         }
 
-        // DELETE (SAFE VERSION)
+        // DELETE CONFIRMATION PAGE
         public async Task<IActionResult> Delete(int id)
         {
-            var data = await db.Projects.FindAsync(id);
+            var data = await _db.Projects.FindAsync(id);
             if (data == null) return NotFound();
-
-            return View(data); // confirm page
+            return View(data);
         }
 
-        // DELETE CONFIRM
+        // DELETE (POST)
         [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var data = await db.Projects.FindAsync(id);
-
-            db.Projects.Remove(data);
-            await db.SaveChangesAsync();
-
+            var data = await _db.Projects.FindAsync(id);
+            if (data != null)
+            {
+                _db.Projects.Remove(data);
+                await _db.SaveChangesAsync();
+                // (Optional) Delete image from Cloudinary here
+            }
             return RedirectToAction("Index", "Dashboard");
         }
+
+        // Optional: Separate endpoint for AJAX uploads (if you want)
         [HttpPost]
         public async Task<IActionResult> UploadImage(IFormFile file)
         {
-            if (file != null && file.Length > 0)
-            {
-                var imageUrl = await photoService.AddPhotoAsync(file);
-                // Save the 'imageUrl' string to your database.
-                return Ok(new { url = imageUrl });
-            }
-            return BadRequest("No file uploaded.");
+            if (file == null || file.Length == 0)
+                return BadRequest("No file uploaded.");
+
+            var imageUrl = await _photoService.AddPhotoAsync(file);
+            return Ok(new { url = imageUrl });
         }
     }
 }
