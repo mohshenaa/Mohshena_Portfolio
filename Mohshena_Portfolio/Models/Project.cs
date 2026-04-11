@@ -44,4 +44,10 @@ namespace Mohshena_Portfolio.Models
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
     }
+    public class CloudinarySettings
+    {
+        public string CloudName { get; set; }
+        public string ApiKey { get; set; }
+        public string ApiSecret { get; set; }
+    }
 }

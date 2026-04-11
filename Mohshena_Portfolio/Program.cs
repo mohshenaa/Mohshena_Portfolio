@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Mohshena_Portfolio;
 using Mohshena_Portfolio.Data;
+using Mohshena_Portfolio.Models;
 using Mohshena_Portfolio.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,6 +34,9 @@ builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Account/Login";
 });
+
+builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
+builder.Services.AddScoped<PhotoService>();
 
 // Custom services
 builder.Services.AddFileUploader();

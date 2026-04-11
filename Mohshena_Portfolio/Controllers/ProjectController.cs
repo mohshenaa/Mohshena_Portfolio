@@ -9,7 +9,7 @@ namespace Mohshena_Portfolio.Controllers
 {
 
    // [Authorize(Roles = "Admin")]
-    public class ProjectController(PortfolioDBContext db, IUploadService uploadService) : Controller
+    public class ProjectController(PortfolioDBContext db, IUploadService uploadService, PhotoService photoService) : Controller
     {
 
         public async Task<IActionResult> Index()
@@ -97,6 +97,17 @@ namespace Mohshena_Portfolio.Controllers
             await db.SaveChangesAsync();
 
             return RedirectToAction("Index", "Dashboard");
+        }
+        [HttpPost]
+        public async Task<IActionResult> UploadImage(IFormFile file)
+        {
+            if (file != null && file.Length > 0)
+            {
+                var imageUrl = await photoService.AddPhotoAsync(file);
+                // Save the 'imageUrl' string to your database.
+                return Ok(new { url = imageUrl });
+            }
+            return BadRequest("No file uploaded.");
         }
     }
 }
