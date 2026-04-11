@@ -5,15 +5,14 @@ using Mohshena_Portfolio.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services
 builder.Services.AddControllersWithViews();
 
-
+// Database - PostgreSQL
 builder.Services.AddDbContext<PortfolioDBContext>(opt =>
- opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));  //for postgre sql
+    opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-/*opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));*/   //register dbcontext
-
+// Identity
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<PortfolioDBContext>()
     .AddDefaultTokenProviders();
@@ -23,48 +22,41 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LoginPath = "/Account/Login";
 });
 
+// Custom services
 builder.Services.AddFileUploader();
 
-//RENDER-SPECIFIC CONFIGURATION 
-// 1. Read the PORT environment variable (Render sets this)
+// Render: Bind to dynamic port
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-// 2. Bind to 0.0.0.0 (all interfaces) on that port
 builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
-
 
 var app = builder.Build();
 
+// Seed database (async safe)
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     await DbInitializer.SeedAdmin(services);
 }
 
-
-
-
-// Configure the HTTP request pipeline.
+// Middleware pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
+// Only redirect to HTTPS in development (Render handles HTTPS at load balancer)
 if (app.Environment.IsDevelopment())
 {
     app.UseHttpsRedirection();
 }
 
 app.UseRouting();
-
 app.UseAuthorization();
-
 app.MapStaticAssets();
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
-.WithStaticAssets();
+    .WithStaticAssets();
 
 app.Run();
