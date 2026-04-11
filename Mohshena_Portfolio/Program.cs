@@ -5,6 +5,17 @@ using Mohshena_Portfolio.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var connString = builder.Configuration.GetConnectionString("DefaultConnection");
+Console.WriteLine($"=== DEBUG: Connection string length = {connString?.Length ?? 0} ===");
+if (!string.IsNullOrEmpty(connString) && connString.Length > 0)
+{
+    Console.WriteLine($"=== DEBUG: First 30 chars = {connString.Substring(0, Math.Min(30, connString.Length))} ===");
+}
+else
+{
+    Console.WriteLine("=== DEBUG: Connection string is NULL or EMPTY! ===");
+}
+
 // Add services
 builder.Services.AddControllersWithViews();
 

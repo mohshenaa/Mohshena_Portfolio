@@ -1,1 +1,12 @@
-"appsettings.json" 
+# User secrets and config
+appsettings.json
+appsettings.Development.json
+*.user
+
+# Build outputs
+bin/
+obj/
+
+# IDE files
+.vs/
+.vscode/
