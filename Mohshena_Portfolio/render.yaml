@@ -1,0 +1,15 @@
+﻿services:
+  - type: web
+    name: mohshena-portfolio
+    runtime: image
+    repo: https://github.com/mohshena/Mohshena_Portfolio
+    branch: master
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    envVars:
+      - key: PORT
+        value: 8080
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      # PostgreSQL connection string will be added manually in Render dashboard after creation
