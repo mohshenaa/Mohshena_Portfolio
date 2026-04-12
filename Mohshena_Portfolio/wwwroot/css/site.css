@@ -453,7 +453,7 @@ body.light-mode .skills-table tbody tr:hover {
 .project-img {
     width: 100%;
     height: 180px;
-    object-fit: cover;
+    object-fit: contain;
     border-radius: 10px;
     margin-bottom: 10px;
 }
