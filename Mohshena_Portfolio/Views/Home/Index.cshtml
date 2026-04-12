@@ -36,7 +36,7 @@
     <div class="container">
         <h2 style="padding:15px 0">About Me</h2>
         <p>
-           @*  Hi, I’m Mohshena Akter Meem. I'm a passionate developer with a growing skill set in ASP.NET, Angular, and React, focused on building cross-platform applications that are both useful and user-friendly. I enjoy learning new technologies and solving problems through code.
+            @*  Hi, I’m Mohshena Akter Meem. I'm a passionate developer with a growing skill set in ASP.NET, Angular, and React, focused on building cross-platform applications that are both useful and user-friendly. I enjoy learning new technologies and solving problems through code.
             <br /><br />
             I’m currently focused on learning new technologies and strengthening my technical skills. I’m deepening my knowledge in SQL, C#, ASP.NET, and modern development tools, and building small projects to apply what I learn. I’m also actively looking for opportunities where I can utilize my skills, contribute to real-world projects, and continue growing as a developer. *@
             I’m Mohshena Akter Meem, a passionate and dedicated developer with a strong focus on building modern, scalable web applications. I specialize in ASP.NET Core, C#, SQL Server, and frontend technologies like HTML, CSS growing experience in Angular.
@@ -80,13 +80,16 @@
                 <div class="card">
                     <p>@project.Title</p><hr />
                     <p>@project.Description</p>
-                    <img src="@project.ImageUrl" class="project-img" alt="@project.Title" />
+                    <div class="project-img-wrapper">
+                        <img src="@project.ImageUrl" class="project-img" />
+                    </div>
                     <div class="project-links">
                         <a href="@project.LiveLink" target="_blank">Live</a>
                         <a href="@project.GitHubLink" target="_blank"><i class="fab fa-github"></i> GitHub</a>
                     </div>
                 </div>
             }
+         
         </div>
     </div>
 </section>
