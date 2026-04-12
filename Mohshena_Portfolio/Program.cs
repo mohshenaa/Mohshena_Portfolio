@@ -41,9 +41,8 @@ builder.Services.AddScoped<PhotoService>();
 // Custom services
 builder.Services.AddFileUploader();
 
-// Render: Bind to dynamic port
-var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+// ❌ REMOVE the UseUrls lines – let launchSettings.json or environment variables handle ports
+// No port hardcoding!
 
 var app = builder.Build();
 
@@ -53,21 +52,18 @@ using (var scope = app.Services.CreateScope())
     await dbContext.Database.MigrateAsync();
 }
 
-// Seed database (async safe)
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     await DbInitializer.SeedAdmin(services);
 }
 
-// Middleware pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
 
-// Only redirect to HTTPS in development (Render handles HTTPS at load balancer)
 if (app.Environment.IsDevelopment())
 {
     app.UseHttpsRedirection();
